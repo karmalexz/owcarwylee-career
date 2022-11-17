@@ -147,8 +147,10 @@ const Search = () => {
                         <HiLocationMarker />
                       </div>
                       <div className="text-gray-600 whitespace-nowrap">
-                        <span>{job.city}, </span>
-                        <span>{job.state} </span>
+                        <span className="mr-0.5">
+                          {job.city ? job.city : job.country}{" "}
+                        </span>
+                        <span> {job.state} </span>
                         <span>{job.postalCode}</span>
                       </div>
                     </div>
@@ -158,7 +160,9 @@ const Search = () => {
                         <AiTwotoneCalendar />
                       </div>
                       <div className="text-gray-600 mr-5">
-                        <span>{job.jobType}</span>
+                        <span>
+                          {job.jobType ? job.jobType : "Any Employment"}
+                        </span>
                       </div>
                     </div>
 

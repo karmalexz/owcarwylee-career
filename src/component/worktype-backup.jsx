@@ -2,6 +2,14 @@ import { Fragment, useEffect, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { BiCheck, BiChevronDown } from "react-icons/bi";
 
+const people = [
+  "Full Time - Permanent",
+  "Full Time - Fixed Term",
+  "Part Time - Permanent",
+  "Part Time - Fixed Term",
+  "Contract",
+  "Casual",
+];
 const jobTypes = [
   {
     jobType: "Full Time - Permanent",
@@ -37,44 +45,11 @@ export default function WorkType({ jobs }) {
     return selectedPersons.find((el) => el === value) ? true : false;
   }
 
-  let jobTypeArray = [];
-
-  jobs.map((job) => {
-    const jobString = JSON.stringify(job.jobType);
-    if (jobString !== undefined) {
-      jobTypeArray.push(jobString.substring(2, jobString.length - 2));
-    }
-    return jobTypeArray;
-  });
-  function getJobTypeNumbers() {
-    for (let i = 0; i < jobTypeArray.length; i++) {
-      jobTypes.map((jobType) => {
-        return jobType.jobType === jobTypeArray[i]
-          ? (jobType.number += 1)
-          : jobType.number;
-      });
-    }
-  }
-  useEffect(() => {
-    getJobTypeNumbers();
-  }, [jobs]);
-
-  //   useEffect(() => {
-
-  //     for (let i = 0; i < jobTypeArray.length; i++) {
-  //       jobTypes.map((jobType) => {
-  //         return jobType.jobType === jobTypeArray[i]
-  //           ? (jobType.number += 1)
-  //           : jobType.number;
-  //       });
-  //     }
-  //   }, []);
-
   function handleSelect(value) {
     if (!isSelected(value)) {
       const selectedPersonsUpdated = [
         ...selectedPersons,
-        jobTypeArray.find((el) => el === value),
+        people.find((el) => el === value),
       ];
       setSelectedPersons(selectedPersonsUpdated);
     } else {
@@ -95,8 +70,8 @@ export default function WorkType({ jobs }) {
         <Listbox
           as="div"
           className="space-y-1"
-          onChange={(value) => handleSelect(value)}
           value={selectedPersons}
+          onChange={(value) => handleSelect(value)}
           open={isOpen}
         >
           {() => (
@@ -148,11 +123,11 @@ export default function WorkType({ jobs }) {
                     static
                     className="max-h-60 rounded-md py-1 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5"
                   >
-                    {jobTypes.map((jobtype, i) => {
+                    {people.map((person) => {
                       let number = 0;
-                      const selected = isSelected(jobtype.jobType);
+                      const selected = isSelected(person);
                       return (
-                        <Listbox.Option key={i} value={jobtype.jobType}>
+                        <Listbox.Option key={person} value={person}>
                           {({ active }) => (
                             <div
                               className={`${
@@ -166,12 +141,12 @@ export default function WorkType({ jobs }) {
                                   selected ? "font-bold" : "font-normal"
                                 } block truncate `}
                               >
-                                {jobtype.jobType}
+                                {person}
                                 <span className="inset-y-0 right-0 absolute mr-10 mt-2 font-normal">
-                                  ({jobtype.number / 2})
+                                  {number}
                                 </span>
                               </span>
-                              {console.log(selectedPersons)}
+
                               {/* <span className="flex-row">2</span> */}
                               {selected && (
                                 <span
