@@ -1,7 +1,6 @@
 {
   "name": "owcareer",
   "version": "0.1.0",
-  "proxy": "https://prod-publicjobfeed.livehire.com/oscarwylee/LiveHirePublicXmlFeed.xml",
   "homepage": "http://localhost:3000",
   "private": true,
   "dependencies": {
