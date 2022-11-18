@@ -8,6 +8,10 @@ module.exports = {
         'mukta':["Mukta"]
       }
     },
+    screens:{
+      "lg":{'max':'1140px'},
+      "md":{'max':'788px'}
+    }
   },
   plugins: [],
 }

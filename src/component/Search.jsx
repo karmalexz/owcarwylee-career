@@ -6,6 +6,9 @@ import { BsCalendar2WeekFill } from "react-icons/bs";
 import Example from "./WorkType";
 import WorkType from "./WorkType";
 import FooterComponent from "./FooterComponent";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
+import Autocomplete from "react-google-autocomplete";
+import SearchLocationInput from "./SearchLocationInput";
 
 const Search = () => {
   let lastItem = 10;
@@ -27,13 +30,20 @@ const Search = () => {
     setFilteredJobs(newFilteredJobs);
   }, [jobs, searchField]);
 
+  //   const newFilteredJobsByType = jobs.filter((job) => {
+  //     return job.jobType.toString().includes();
+  //   });
+  const pull_data = (data) => {
+    console.log(data);
+  };
+
   return (
     <div>
       <img className="w-64 p-6" src={require("../assets/logo2.png")} alt="" />
       <div className="">
         <img
           src={require("../assets/background.webp")}
-          className="object-cover h-96 w-full"
+          className="object-cover h-96 w-full lg:h-60"
           alt=""
         />
       </div>
@@ -49,16 +59,16 @@ const Search = () => {
       {/*************************** Search Component Start **************************/}
       <div
         className="mx-8 mt-10 text-lg flex-col max-w-6xl justify-start
-         items-start ml-auto mr-auto"
+         items-start ml-auto mr-auto lg:max-w-4xl"
       >
         <div>
-          <h1 className="font-extrabold text-2xl">Job search</h1>
+          <h1 className="font-extrabold text-2xl ml-5">Job search</h1>
         </div>
         <div className="w-full max-w-screen-xl">
           <div className="justify-center py-10">
-            <div className="w-full max-w-6xl">
-              <div className="bg-white border rounded-sm rounded-b-none px-3 py-2 pb-3 flex flex-row">
-                <div className="flex-auto border-r">
+            <div className="w-full max-w-6xl lg:max-w-4xl lg:mx-auto">
+              <div className="bg-white border rounded-sm rounded-b-none px-3 py-2 pb-3 flex flex-row md:flex-col md:rounded-none">
+                <div className="flex-auto border-r md:border-r-0">
                   <div className="block tracking-widest text-gray-700 text-sm font-bold my-2 px-2 font-mukta uppercase">
                     What
                   </div>
@@ -77,7 +87,7 @@ const Search = () => {
                     />
                   </div>
                 </div>
-                <div className="flex-auto ml-2">
+                <div className="flex-auto ml-2 md:ml-0 md:border-t-2">
                   <div className="block tracking-widest text-gray-700 text-sm font-bold py-2 px-2 font-mukta uppercase">
                     Category
                   </div>
@@ -92,7 +102,7 @@ const Search = () => {
                 </div>
               </div>
 
-              <div className="bg-gray-100 border border-t-0  rounded-sm rounded-t-none px-3 py-2 mb-4 pb-3">
+              <div className="bg-gray-100 border border-t-0  rounded-sm rounded-t-none px-auto py-auto pl-1 mb-4 pb-3 flex flex-row md:flex-col">
                 {/* <label
                   for="countries"
                   class="block mb-2 text-sm font-medium text-gray-900 bg-gray-400"
@@ -108,6 +118,10 @@ const Search = () => {
                   <option value="DE">Germany</option>
                 </select> */}
                 <WorkType jobs={jobs} />
+
+                {/* <SearchLocationInput />
+                 */}
+                <WorkType jobs={jobs} />
               </div>
             </div>
           </div>
@@ -119,7 +133,7 @@ const Search = () => {
       <div>
         <div
           className="mx-8 mt-10 text-lg flex max-w-6xl justify-start
-         items-start ml-auto mr-auto"
+         items-start ml-auto mr-auto lg:max-w-4xl"
         >
           <p>
             Showing{" "}
@@ -129,49 +143,50 @@ const Search = () => {
             of {filteredJobs.length}
           </p>
         </div>
+
         <ul className="mt-8">
           {filteredJobs.slice(0, showMore).map((job) => {
             return (
               <a href={job.url} key={job.referenceNumber}>
-                <div className="border mx-8 mb-4 flex max-w-6xl justify-center items-center ml-auto mr-auto hover:border-black hover:bg-gray-50">
-                  <div className="m-5  w-9/12 align-middle	">
-                    <li className="p-5 font-bold text-xl">{job.title}</li>
-                    {/* <p className="m-5 -mt-2 pb-14 w-10/12">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Delectus, est consectetur. Velit, error. Quasi itaque est
-                    </p> */}
-                  </div>
-                  <div className="mr-auto text-xs mb-5 pr-10">
-                    <div className="flex ml-auto mt-5 ">
-                      <div className="mr-4 mt-0.5">
-                        <HiLocationMarker />
-                      </div>
-                      <div className="text-gray-600 whitespace-nowrap">
-                        <span className="mr-0.5">
-                          {job.city ? job.city : job.country}{" "}
-                        </span>
-                        <span> {job.state} </span>
-                        <span>{job.postalCode}</span>
-                      </div>
+                <div className="md:px-1 lg:px-2">
+                  <div className="border mx-8 mb-4 flex max-w-6xl justify-center items-center ml-auto mr-auto hover:border-black hover:bg-gray-50 lg:max-w-4xl md:max-w-2xl">
+                    <div className="m-5  w-9/12 align-middle	">
+                      <li className="p-5 font-bold text-xl lg:text-base md:text-sm">
+                        {job.title}
+                      </li>
                     </div>
+                    <div className="mr-auto text-xs mb-5 pr-10 whitespace-nowrap lg:w-44 lg:mr-10">
+                      <div className="flex ml-auto mt-5 lg:mt-4">
+                        <div className="mr-4 mt-0.5">
+                          <HiLocationMarker />
+                        </div>
+                        <div className="text-gray-600 whitespace-nowrap">
+                          <span className="mr-0.5">
+                            {job.city ? job.city : job.country}{" "}
+                          </span>
+                          <span> {job.state} </span>
+                          <span>{job.postalCode}</span>
+                        </div>
+                      </div>
 
-                    <div className="flex ml-auto mt-5">
-                      <div className="mr-4 mt-0.5">
-                        <AiTwotoneCalendar />
+                      <div className="flex ml-auto mt-5 lg:mt-4 lg:text-right">
+                        <div className="mr-4 mt-0.5">
+                          <AiTwotoneCalendar />
+                        </div>
+                        <div className="text-gray-600 mr-5">
+                          <span>
+                            {job.jobType ? job.jobType : "Any Employment"}
+                          </span>
+                        </div>
                       </div>
-                      <div className="text-gray-600 mr-5">
-                        <span>
-                          {job.jobType ? job.jobType : "Any Employment"}
-                        </span>
-                      </div>
-                    </div>
 
-                    <div className="flex ml-auto mt-5">
-                      <div className="mr-4 mt-0.5">
-                        <BsCalendar2WeekFill />
-                      </div>
-                      <div className="text-gray-600 mr-5">
-                        <span>{job.city}</span>
+                      <div className="flex ml-auto mt-5  lg:mt-4">
+                        <div className="mr-4 mt-0.5">
+                          <BsCalendar2WeekFill />
+                        </div>
+                        <div className="text-gray-600 mr-5">
+                          <span>{job.city}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -181,6 +196,7 @@ const Search = () => {
           })}
         </ul>
       </div>
+
       <div className="flex flex-col mx-8 mb-4 max-w-6xl justify-center items-center ml-auto mr-auto">
         <button
           onClick={() => {
@@ -189,7 +205,7 @@ const Search = () => {
           }}
           className={`bg-transparent hover:bg-blue-500 text-blue-700 font-bold hover:text-white py-4 w-full mb-6 border border-blue-500 hover:border-transparent rounded flex items-center justify-center ${
             showMore >= filteredJobs.length ? "cursor-not-allowed" : ""
-          }`}
+          } lg:max-w-4xl md:max-w-2xl`}
         >
           Show more jobs
         </button>

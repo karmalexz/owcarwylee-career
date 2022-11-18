@@ -2,7 +2,7 @@ import React from "react";
 
 const FooterComponent = () => {
   return (
-    <div className="mx-8 mb-4 max-w-6xl justify-center w-full items-center ml-auto mr-auto p-10 bg-gray-100 flex flex-row">
+    <div className="mx-8 mb-4 max-w-6xl justify-center w-full items-center ml-auto mr-auto p-10 bg-gray-100 flex flex-row lg:max-w-4xl md:max-w-2xl">
       <div>
         <p className="text-xl font-bold mb-4">
           We're always on the lookout for talent
@@ -13,7 +13,7 @@ const FooterComponent = () => {
         </p>
       </div>
       <div>
-        <div className="whitespace-nowrap font-bold text-sm rounded-md bg-black text-white p-2 px-12 hover:bg-gray-700 hover:cursor-pointer transition ease-in-out duration-500">
+        <div className="whitespace-nowrap font-bold text-sm rounded-md bg-black text-white p-2 px-12 hover:bg-gray-700 hover:cursor-pointer transition ease-in-out duration-500 md:text-xs px-5">
           <a href="https://www.livehire.com/talent/community/oscarwylee/careers/contact">
             Join our Talent Community
           </a>

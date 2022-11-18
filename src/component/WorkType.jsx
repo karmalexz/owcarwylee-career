@@ -29,7 +29,7 @@ const jobTypes = [
   },
 ];
 
-export default function WorkType({ jobs }) {
+export default function WorkType({ onFilterJobs, jobs }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPersons, setSelectedPersons] = useState([]);
 
@@ -90,7 +90,7 @@ export default function WorkType({ jobs }) {
   }
 
   return (
-    <div className="flex w-1/2 pr-2">
+    <div className="flex w-1/2 pr-2 md:w-full">
       <div className="w-full mt-2 ">
         <Listbox
           as="div"
@@ -104,14 +104,14 @@ export default function WorkType({ jobs }) {
               {/* <Listbox.Label className="block text-sm leading-5 font-medium text-gray-700">
                 Work Types
               </Listbox.Label> */}
-              <div className="relative">
+              <div className="relative md:mb-2">
                 <span className="inline-block w-full rounded-md shadow-sm">
                   <Listbox.Button
-                    className="cursor-default relative w-full rounded-md border border-gray-300 bg-white pl-3 pr-10 py-2 text-left focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition ease-in-out duration-150 sm:text-sm sm:leading-5"
+                    className="cursor-default relative w-full rounded-sm border border-gray-300 bg-white pl-3 pr-10 py-2 text-left focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition ease-in-out duration-150 sm:text-sm sm:leading-5"
                     onClick={() => setIsOpen(!isOpen)}
                     open={isOpen}
                   >
-                    <span className="block truncate">
+                    <span className="block truncate text-gray-500">
                       {selectedPersons.length < 1
                         ? "All Work Types"
                         : selectedPersons.length > 3
@@ -171,7 +171,6 @@ export default function WorkType({ jobs }) {
                                   ({jobtype.number / 2})
                                 </span>
                               </span>
-                              {console.log(selectedPersons)}
                               {/* <span className="flex-row">2</span> */}
                               {selected && (
                                 <span
