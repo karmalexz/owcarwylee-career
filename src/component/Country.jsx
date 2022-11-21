@@ -1,86 +1,23 @@
-import { Fragment, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
-import { BiCheck, BiChevronDown } from "react-icons/bi";
 
-const jobTypes = [
-  {
-    jobType: "Full Time - Permanent",
-    number: 0,
-  },
-  {
-    jobType: "Full Time - Fixed Term",
-    number: 0,
-  },
-  {
-    jobType: "Part Time - Permanent",
-    number: 0,
-  },
-  {
-    jobType: "Part Time - Fixed Term",
-    number: 0,
-  },
-  {
-    jobType: "Contract",
-    number: 0,
-  },
-  {
-    jobType: "Casual",
-    number: 0,
-  },
-];
+const Country = () => {
+  const countries = ["Australia", "New Zealand", "Canada"];
 
-export default function WorkType(props) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedPersons, setSelectedPersons] = useState([]);
+  const [selectedCountries, setSelectedCountries] = useState([]);
 
   function isSelected(value) {
-    return selectedPersons.find((el) => el === value) ? true : false;
+    return selectedCountries.find((el) => el === value) ? true : false;
   }
-
-  let jobTypeArray = [];
-
-  props.jobs.map((job) => {
-    const jobString = JSON.stringify(job.jobType);
-    if (jobString !== undefined) {
-      jobTypeArray.push(jobString.substring(2, jobString.length - 2));
-    }
-    return jobTypeArray;
-  });
-  function getJobTypeNumbers() {
-    for (let i = 0; i < jobTypeArray.length; i++) {
-      jobTypes.map((jobType) => {
-        return jobType.jobType === jobTypeArray[i]
-          ? (jobType.number += 1)
-          : jobType.number;
-      });
-    }
-  }
-  useEffect(() => {
-    getJobTypeNumbers();
-  }, [props.jobs]);
-
-  useEffect(() => {
-    props.onFilterJobsByType(selectedPersons);
-  }, [selectedPersons]);
-
-  //   useEffect(() => {
-
-  //     for (let i = 0; i < jobTypeArray.length; i++) {
-  //       jobTypes.map((jobType) => {
-  //         return jobType.jobType === jobTypeArray[i]
-  //           ? (jobType.number += 1)
-  //           : jobType.number;
-  //       });
-  //     }
-  //   }, []);
 
   function handleSelect(value) {
     if (!isSelected(value)) {
-      const selectedPersonsUpdated = [
-        ...selectedPersons,
-        jobTypeArray.find((el) => el === value),
+      const selectedCountriesUpdated = [
+        ...selectedCountries,
+        countries.find((el) => el === value),
       ];
-      setSelectedPersons(selectedPersonsUpdated);
+      setSelectedCountries(selectedCountriesUpdated);
     } else {
       handleDeselect(value);
     }
@@ -88,39 +25,36 @@ export default function WorkType(props) {
   }
 
   function handleDeselect(value) {
-    const selectedPersonsUpdated = selectedPersons.filter((el) => el !== value);
-    setSelectedPersons(selectedPersonsUpdated);
+    const selectedCountriesUpdated = selectedCountries.filter(
+      (el) => el !== value
+    );
+    setSelectedCountries(selectedCountriesUpdated);
     setIsOpen(true);
   }
 
   return (
     <div className="flex w-1/2 pr-2">
-      <div className="w-full mt-2 ">
+      <div className="w-full mt-2">
         <Listbox
           as="div"
           className="space-y-1"
+          value={selectedCountries}
           onChange={(value) => handleSelect(value)}
-          value={selectedPersons}
           open={isOpen}
         >
           {() => (
             <>
-              {/* <Listbox.Label className="block text-sm leading-5 font-medium text-gray-700">
-                Work Types
-              </Listbox.Label> */}
-              <div className="relative md:mb-2">
+              <div className="relative md:mb-2  ">
                 <span className="inline-block w-full rounded-md shadow-sm">
                   <Listbox.Button
                     className="cursor-default relative w-full rounded-sm border border-gray-300 bg-white pl-3 pr-10 py-2 text-left focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition ease-in-out duration-150 sm:text-sm sm:leading-5"
                     onClick={() => setIsOpen(!isOpen)}
                     open={isOpen}
                   >
-                    <span className="block truncate text-gray-500">
-                      {selectedPersons.length < 1
-                        ? "All Work Types"
-                        : selectedPersons.length > 3
-                        ? `${selectedPersons.length} Work Types Selected`
-                        : `${selectedPersons.join(", ")}`}
+                    <span className="block truncate">
+                      {selectedCountries.length < 1
+                        ? "Select Country"
+                        : `${selectedCountries}`}
                     </span>
                     <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                       <svg
@@ -150,32 +84,27 @@ export default function WorkType(props) {
                 >
                   <Listbox.Options
                     static
-                    className="max-h-60 rounded-md py-1 text-base leading-6 shadow-xs  focus:outline-none sm:text-sm sm:leading-5"
+                    className="max-h-60 rounded-md py-1 text-base leading-6 shadow-xs focus:outline-none sm:text-sm sm:leading-5"
                   >
-                    {jobTypes.map((jobtype, i) => {
-                      let number = 0;
-                      const selected = isSelected(jobtype.jobType);
+                    {countries.map((country) => {
+                      const selected = isSelected(country);
                       return (
-                        <Listbox.Option key={i} value={jobtype.jobType}>
+                        <Listbox.Option key={country} value={country}>
                           {({ active }) => (
                             <div
                               className={`${
                                 active
-                                  ? "text-white bg-slate-100"
+                                  ? "text-white bg-blue-600"
                                   : "text-gray-900"
-                              } cursor-default select-none relative py-2 pl-8 pr-4  hover:cursor-pointer hover:bg-slate-100`}
+                              } cursor-default select-none relative py-2 pl-8 pr-4`}
                             >
                               <span
                                 className={`${
-                                  selected ? "font-bold" : "font-normal"
-                                } block truncate `}
+                                  selected ? "font-semibold" : "font-normal"
+                                } block truncate`}
                               >
-                                {jobtype.jobType}
-                                <span className="inset-y-0 right-0 absolute mr-10 mt-2 font-normal">
-                                  ({jobtype.number / 2})
-                                </span>
+                                {country}
                               </span>
-                              {/* <span className="flex-row">2</span> */}
                               {selected && (
                                 <span
                                   className={`${
@@ -210,4 +139,6 @@ export default function WorkType(props) {
       </div>
     </div>
   );
-}
+};
+
+export default Country;

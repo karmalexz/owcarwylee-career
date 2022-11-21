@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useEffect, useState } from "react";
 import { HiLocationMarker } from "react-icons/hi";
 import { AiTwotoneCalendar } from "react-icons/ai";
@@ -9,12 +9,46 @@ import FooterComponent from "./FooterComponent";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import Autocomplete from "react-google-autocomplete";
 import SearchLocationInput from "./SearchLocationInput";
+import Country from "./Country";
 
 const Search = () => {
+  const countries = ["Australia", "New Zealand", "Canada"];
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedCountries, setSelectedCountries] = useState([]);
+
+  function isSelected(value) {
+    return selectedCountries.find((el) => el === value) ? true : false;
+  }
+
+  function handleSelect(value) {
+    if (!isSelected(value)) {
+      const selectedCountriesUpdated = [
+        ...selectedCountries,
+        countries.find((el) => el === value),
+      ];
+      setSelectedCountries(selectedCountriesUpdated);
+    } else {
+      handleDeselect(value);
+    }
+    setIsOpen(true);
+  }
+
+  function handleDeselect(value) {
+    const selectedCountriesUpdated = selectedCountries.filter(
+      (el) => el !== value
+    );
+    setSelectedCountries(selectedCountriesUpdated);
+    setIsOpen(true);
+  }
+
+  // *******************************************************
+
   let lastItem = 10;
   const [jobs, setJobs] = useState([]);
   const [showMore, setShowMore] = useState(10);
   const [searchField, setSearchField] = useState("");
+  const [categorySearchField, setCategorySearchField] = useState("");
   const [filteredJobs, setFilteredJobs] = useState(jobs);
 
   useEffect(() => {
@@ -25,16 +59,40 @@ const Search = () => {
 
   useEffect(() => {
     const newFilteredJobs = jobs.filter((job) => {
-      return job.title.toString().toLocaleLowerCase().includes(searchField);
+      return (
+        job.title.toString().toLocaleLowerCase().includes(searchField) &&
+        job.category
+          .toString()
+          .toLocaleLowerCase()
+          .includes(categorySearchField)
+      );
     });
     setFilteredJobs(newFilteredJobs);
-  }, [jobs, searchField]);
+  }, [jobs, searchField, categorySearchField]);
 
+  //   useEffect(() => {
+  //     const newFilteredJobs = jobs.filter((job) => {
+  //       return job.category
+  //         .toString()
+  //         .toLocaleLowerCase()
+  //         .includes(categorySearchField);
+  //     });
+  //     setFilteredJobs(newFilteredJobs);
+  //   }, [jobs, categorySearchField]);
   //   const newFilteredJobsByType = jobs.filter((job) => {
   //     return job.jobType.toString().includes();
   //   });
-  const pull_data = (data) => {
-    console.log(data);
+
+  const filterJobsByTypeHandler = (jobTypes) => {
+    console.log(`selected job types are ${jobTypes}`);
+    const newFilteredJobs = jobs.filter((job) => {
+      for (let i = 0; i < jobTypes.length; i++) {
+        if (job.jobType !== undefined) {
+          return job.jobType.toString() === jobTypes[i];
+        }
+      }
+    });
+    setFilteredJobs(newFilteredJobs);
   };
 
   return (
@@ -43,7 +101,7 @@ const Search = () => {
       <div className="">
         <img
           src={require("../assets/background.webp")}
-          className="object-cover h-96 w-full lg:h-60"
+          className="object-cover h-96 w-full lg:h-60 md:h-48"
           alt=""
         />
       </div>
@@ -87,8 +145,8 @@ const Search = () => {
                     />
                   </div>
                 </div>
-                <div className="flex-auto ml-2 md:ml-0 md:border-t-2">
-                  <div className="block tracking-widest text-gray-700 text-sm font-bold py-2 px-2 font-mukta uppercase">
+                <div className="flex-auto md:border-r-0">
+                  <div className="block tracking-widest text-gray-700 text-sm font-bold my-2 px-2 font-mukta uppercase">
                     Category
                   </div>
                   <div className="items-center bg-gray-200 rounded-md">
@@ -96,7 +154,13 @@ const Search = () => {
                       className="w-full rounded-md placeholder-gray-300 text-gray-700 leading-tight focus:outline-none py-2 px-2"
                       id="search"
                       type="text"
-                      placeholder="Enter keyword, role name or ID"
+                      placeholder="Search Head Office, Optometrist, Partnership or Retail "
+                      onChange={(event) => {
+                        const searchFieldString = event.target.value
+                          .toString()
+                          .toLocaleLowerCase();
+                        setCategorySearchField(searchFieldString);
+                      }}
                     />
                   </div>
                 </div>
@@ -117,11 +181,14 @@ const Search = () => {
                   <option value="FR">France</option>
                   <option value="DE">Germany</option>
                 </select> */}
-                <WorkType jobs={jobs} />
-
+                <WorkType
+                  jobs={jobs}
+                  onFilterJobsByType={filterJobsByTypeHandler}
+                />
+                <Country />
                 {/* <SearchLocationInput />
                  */}
-                <WorkType jobs={jobs} />
+                {/* <WorkType jobs={jobs} /> */}
               </div>
             </div>
           </div>
@@ -133,7 +200,7 @@ const Search = () => {
       <div>
         <div
           className="mx-8 mt-10 text-lg flex max-w-6xl justify-start
-         items-start ml-auto mr-auto lg:max-w-4xl"
+         items-start ml-auto mr-auto lg:max-w-4xl lg:px-2 md:max-w-2xl md:px-1"
         >
           <p>
             Showing{" "}
@@ -150,7 +217,7 @@ const Search = () => {
               <a href={job.url} key={job.referenceNumber}>
                 <div className="md:px-1 lg:px-2">
                   <div className="border mx-8 mb-4 flex max-w-6xl justify-center items-center ml-auto mr-auto hover:border-black hover:bg-gray-50 lg:max-w-4xl md:max-w-2xl">
-                    <div className="m-5  w-9/12 align-middle	">
+                    <div className="m-5  w-9/12 align-middld md:mx-0">
                       <li className="p-5 font-bold text-xl lg:text-base md:text-sm">
                         {job.title}
                       </li>
@@ -197,7 +264,7 @@ const Search = () => {
         </ul>
       </div>
 
-      <div className="flex flex-col mx-8 mb-4 max-w-6xl justify-center items-center ml-auto mr-auto">
+      <div className="flex flex-col mx-8 mb-4 max-w-6xl justify-center items-center ml-auto mr-auto lg:px-2">
         <button
           onClick={() => {
             lastItem = lastItem + 10;
@@ -205,7 +272,7 @@ const Search = () => {
           }}
           className={`bg-transparent hover:bg-blue-500 text-blue-700 font-bold hover:text-white py-4 w-full mb-6 border border-blue-500 hover:border-transparent rounded flex items-center justify-center ${
             showMore >= filteredJobs.length ? "cursor-not-allowed" : ""
-          } lg:max-w-4xl md:max-w-2xl`}
+          } lg:max-w-4xl md:max-w-2xl md:w-full md:mx-1`}
         >
           Show more jobs
         </button>
