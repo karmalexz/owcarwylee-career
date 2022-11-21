@@ -31,10 +31,10 @@ const jobTypes = [
 
 export default function WorkType(props) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedPersons, setSelectedPersons] = useState([]);
+  const [selectedWorkTypes, setSelectedWorkTypes] = useState([]);
 
   function isSelected(value) {
-    return selectedPersons.find((el) => el === value) ? true : false;
+    return selectedWorkTypes.find((el) => el === value) ? true : false;
   }
 
   let jobTypeArray = [];
@@ -60,8 +60,8 @@ export default function WorkType(props) {
   }, [props.jobs]);
 
   useEffect(() => {
-    props.onFilterJobsByType(selectedPersons);
-  }, [selectedPersons]);
+    props.onFilterJobsByType(selectedWorkTypes);
+  }, [selectedWorkTypes]);
 
   //   useEffect(() => {
 
@@ -76,11 +76,11 @@ export default function WorkType(props) {
 
   function handleSelect(value) {
     if (!isSelected(value)) {
-      const selectedPersonsUpdated = [
-        ...selectedPersons,
+      const selectedWorkTypesUpdated = [
+        ...selectedWorkTypes,
         jobTypeArray.find((el) => el === value),
       ];
-      setSelectedPersons(selectedPersonsUpdated);
+      setSelectedWorkTypes(selectedWorkTypesUpdated);
     } else {
       handleDeselect(value);
     }
@@ -88,8 +88,10 @@ export default function WorkType(props) {
   }
 
   function handleDeselect(value) {
-    const selectedPersonsUpdated = selectedPersons.filter((el) => el !== value);
-    setSelectedPersons(selectedPersonsUpdated);
+    const selectedWorkTypesUpdated = selectedWorkTypes.filter(
+      (el) => el !== value
+    );
+    setSelectedWorkTypes(selectedWorkTypesUpdated);
     setIsOpen(true);
   }
 
@@ -100,7 +102,7 @@ export default function WorkType(props) {
           as="div"
           className="space-y-1"
           onChange={(value) => handleSelect(value)}
-          value={selectedPersons}
+          value={selectedWorkTypes}
           open={isOpen}
         >
           {() => (
@@ -116,11 +118,11 @@ export default function WorkType(props) {
                     open={isOpen}
                   >
                     <span className="block truncate text-gray-500">
-                      {selectedPersons.length < 1
+                      {selectedWorkTypes.length < 1
                         ? "All Work Types"
-                        : selectedPersons.length > 3
-                        ? `${selectedPersons.length} Work Types Selected`
-                        : `${selectedPersons.join(", ")}`}
+                        : selectedWorkTypes.length > 3
+                        ? `${selectedWorkTypes.length} Work Types Selected`
+                        : `${selectedWorkTypes.join(", ")}`}
                     </span>
                     <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                       <svg
