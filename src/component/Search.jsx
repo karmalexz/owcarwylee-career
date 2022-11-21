@@ -59,18 +59,19 @@ const Search = () => {
 
   useEffect(() => {
     const newFilteredJobs = jobs.filter((job) => {
-      console.log(job.country.toString() === selectedCountries.toString());
+      //   console.log(job.country.toString() === selectedCountries.toString());
       return (
         job.title.toString().toLocaleLowerCase().includes(searchField) &&
         job.category
           .toString()
           .toLocaleLowerCase()
-          .includes(categorySearchField) &&
-        job.country.toString() === selectedCountries.toString()
+          .includes(categorySearchField)
+        //    &&
+        // job.country.toString() === selectedCountries.toString()
       );
     });
     setFilteredJobs(newFilteredJobs);
-  }, [jobs, searchField, categorySearchField, selectedCountries]);
+  }, [jobs, searchField, categorySearchField]);
 
   //   useEffect(() => {
   //     const newFilteredJobs = jobs.filter((job) => {
@@ -86,7 +87,11 @@ const Search = () => {
   //   });
 
   const filterJobsByTypeHandler = (jobTypes) => {
-    console.log(`selected job types are ${jobTypes}`);
+    console.log(
+      `selected job types are ${jobTypes} and jobtype type is ${typeof jobTypes} jobtype length is ${
+        jobTypes.length
+      }`
+    );
     const newFilteredJobs = jobs.filter((job) => {
       for (let i = 0; i < jobTypes.length; i++) {
         if (job.jobType !== undefined) {
@@ -129,12 +134,12 @@ const Search = () => {
             <div className="w-full max-w-6xl lg:max-w-4xl lg:mx-auto">
               <div className="bg-white border rounded-sm rounded-b-none px-3 py-2 pb-3 flex flex-row md:flex-col md:rounded-none">
                 <div className="flex-auto border-r md:border-r-0">
-                  <div className="block tracking-widest text-gray-700 text-sm font-bold my-2 px-2 font-mukta uppercase">
+                  <div className="block tracking-widest text-gray-700 font-bold my-2 px-2 font-mukta uppercase">
                     What
                   </div>
                   <div className="items-center bg-gray-200 rounded-md">
                     <input
-                      className="w-full rounded-md placeholder-gray-300 text-gray-700 leading-tight focus:outline-none py-2 px-2"
+                      className="w-full rounded-md placeholder-gray-400 text-gray-700 leading-tight focus:outline-none py-2 px-2  md:placeholder:text-sm lg:placeholder:text-sm"
                       id="search"
                       type="text"
                       placeholder="Enter keyword of role name"
@@ -148,15 +153,15 @@ const Search = () => {
                   </div>
                 </div>
                 <div className="flex-auto md:border-r-0">
-                  <div className="block tracking-widest text-gray-700 text-sm font-bold my-2 px-2 font-mukta uppercase">
+                  <div className="block tracking-widest text-gray-700 font-bold my-2 px-2 font-mukta uppercase">
                     Category
                   </div>
                   <div className="items-center bg-gray-200 rounded-md">
                     <input
-                      className="w-full rounded-md placeholder-gray-300 text-gray-700 leading-tight focus:outline-none py-2 px-2"
+                      className="w-full rounded-md placeholder-gray-400 text-gray-700 leading-tight focus:outline-none py-2 px-2  md:placeholder:text-xs lg:placeholder:text-sm"
                       id="search"
                       type="text"
-                      placeholder="Search Head Office, Optometrist, Partnership or Retail "
+                      placeholder="Search Head Office, Optometrist, Partnership or Retail"
                       onChange={(event) => {
                         const searchFieldString = event.target.value
                           .toString()
