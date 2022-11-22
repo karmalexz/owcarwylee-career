@@ -125,24 +125,24 @@ const Search = () => {
 
   useEffect(() => {
     search();
-    console.log("selectedTypes", selectedTypes);
-  }, [selectedTypes]);
+    // console.log('selectedTypes', selectedTypes);
+  }, [selectedTypes, selectedCountries, what, category]);
 
-  useEffect(() => {
-    search();
-    console.log("country", selectedCountries);
-  }, [selectedCountries]);
+  // useEffect(()=>{
+  //   search()
+  //   console.log('country', selectedCountries);
+  // }, [selectedCountries])
 
   const search = () => {
     let t = jobs;
-    console.log("first", firstSearch);
-    console.log("start", t, jobs, filteredJobs);
+    console.table(what, category, selectedTypes, selectedCountries);
     if (what !== "") {
+      console.log("what");
       t = t.filter((item) => item.title[0].toLocaleLowerCase().includes(what));
     }
     if (category !== "") {
       console.log("category");
-      console.log("before filter", t);
+      // console.log('before filter', t);
       t = t.filter((item) => {
         let flag = false;
         item.category.map((c) => {
@@ -154,6 +154,7 @@ const Search = () => {
       });
     }
     if (selectedTypes.length !== 0) {
+      console.log("type");
       t = t.filter((job) => {
         let flag = false;
         for (let i = 0; i < selectedTypes.length; i++) {
@@ -168,6 +169,7 @@ const Search = () => {
       });
     }
     if (selectedCountries.length !== 0) {
+      console.log("country");
       t = t.filter((job) => {
         let flag = false;
         for (let i = 0; i < selectedCountries.length; i++) {
@@ -231,7 +233,7 @@ const Search = () => {
                           .toLocaleLowerCase();
                         setWhat(event.target.value);
                         // setSearchField(searchFieldString);
-                        search("what");
+                        // search('what')
                       }}
                     />
                   </div>
@@ -252,7 +254,7 @@ const Search = () => {
                           .toString()
                           .toLocaleLowerCase();
                         setCategory(event.target.value);
-                        search("category");
+                        // search('category')
                       }}
                     />
                   </div>
