@@ -14,6 +14,11 @@ import { Listbox, Transition } from "@headlessui/react";
 
 const Search = () => {
   const countries = ["AU", "NZ", "CA"];
+  const countryHash = {
+    AU: "Australia",
+    NZ: "New Zealand",
+    CA: "Canada",
+  };
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCountries, setSelectedCountries] = useState([]);
@@ -46,9 +51,15 @@ const Search = () => {
   // *******************************************************
 
   useEffect(() => {
-    fetch("http://localhost:5000")
+    fetch("http://localhost:5050")
       .then((response) => response.json())
-      .then((data) => setJobs(data));
+      .then((data) => {
+        setJobs(data);
+        setFilteredJobs(data);
+        if (window.location.href.split("=")[1]) {
+          setSelectedCountries([window.location.href.split("=")[1]]);
+        }
+      });
   }, []);
   let lastItem = 10;
   const [jobs, setJobs] = useState([]);
@@ -56,22 +67,25 @@ const Search = () => {
   const [searchField, setSearchField] = useState("");
   const [categorySearchField, setCategorySearchField] = useState("");
   const [filteredJobs, setFilteredJobs] = useState(jobs);
+  const [what, setWhat] = useState("");
+  const [category, setCategory] = useState("");
+  const [firstSearch, setFirstSearch] = useState(true);
+  const [selectedTypes, setSelectedTypes] = useState([]);
 
-  useEffect(() => {
-    const newFilteredJobs = jobs.filter((job) => {
-      //   console.log(job.country.toString() === selectedCountries.toString());
-      return (
-        job.title.toString().toLocaleLowerCase().includes(searchField) &&
-        job.category
-          .toString()
-          .toLocaleLowerCase()
-          .includes(categorySearchField)
-        //    &&
-        // job.country.toString() === selectedCountries.toString()
-      );
-    });
-    setFilteredJobs(newFilteredJobs);
-  }, [jobs, searchField, categorySearchField]);
+  // useEffect(() => {
+  //   const newFilteredJobs = jobs.filter((job) => {
+  //     console.log(job.country.toString() === selectedCountries.toString());
+  //     return (
+  //       job.title.toString().toLocaleLowerCase().includes(searchField) &&
+  //       job.category
+  //         .toString()
+  //         .toLocaleLowerCase()
+  //         .includes(categorySearchField) &&
+  //       job.country.toString() === selectedCountries.toString()
+  //     );
+  //   });
+  //   setFilteredJobs(newFilteredJobs);
+  // }, [jobs, searchField, categorySearchField, selectedCountries]);
 
   //   useEffect(() => {
   //     const newFilteredJobs = jobs.filter((job) => {
@@ -87,19 +101,86 @@ const Search = () => {
   //   });
 
   const filterJobsByTypeHandler = (jobTypes) => {
-    console.log(
-      `selected job types are ${jobTypes} and jobtype type is ${typeof jobTypes} jobtype length is ${
-        jobTypes.length
-      }`
-    );
-    const newFilteredJobs = jobs.filter((job) => {
+    console.log(`selected job types are ${jobTypes}`);
+    if (!jobTypes || jobTypes.length === 0) return;
+    console.log("firstSearch", firstSearch);
+    let t = jobs;
+    const newFilteredJobs = t.filter((job) => {
+      let flag = false;
       for (let i = 0; i < jobTypes.length; i++) {
         if (job.jobType !== undefined) {
-          return job.jobType.toString() === jobTypes[i];
+          if (job.jobType.toString() === jobTypes[i]) {
+            flag = true;
+            break;
+          }
         }
       }
+      return flag;
     });
     setFilteredJobs(newFilteredJobs);
+  };
+
+  const endpoint = window.location.href.split("=")[1];
+  console.log(endpoint);
+
+  useEffect(() => {
+    search();
+    console.log("selectedTypes", selectedTypes);
+  }, [selectedTypes]);
+
+  useEffect(() => {
+    search();
+    console.log("country", selectedCountries);
+  }, [selectedCountries]);
+
+  const search = () => {
+    let t = jobs;
+    console.log("first", firstSearch);
+    console.log("start", t, jobs, filteredJobs);
+    if (what !== "") {
+      t = t.filter((item) => item.title[0].toLocaleLowerCase().includes(what));
+    }
+    if (category !== "") {
+      console.log("category");
+      console.log("before filter", t);
+      t = t.filter((item) => {
+        let flag = false;
+        item.category.map((c) => {
+          if (c.toLocaleLowerCase().includes(category)) {
+            flag = true;
+          }
+        });
+        return flag;
+      });
+    }
+    if (selectedTypes.length !== 0) {
+      t = t.filter((job) => {
+        let flag = false;
+        for (let i = 0; i < selectedTypes.length; i++) {
+          if (job.jobType !== undefined) {
+            if (job.jobType.toString() === selectedTypes[i]) {
+              flag = true;
+              break;
+            }
+          }
+        }
+        return flag;
+      });
+    }
+    if (selectedCountries.length !== 0) {
+      t = t.filter((job) => {
+        let flag = false;
+        for (let i = 0; i < selectedCountries.length; i++) {
+          if (job.country[0].toString() === selectedCountries[i]) {
+            flag = true;
+            break;
+          }
+        }
+        return flag;
+      });
+    }
+    console.log("t", t);
+    setFilteredJobs(t);
   };
 
   return (
@@ -134,12 +215,13 @@ const Search = () => {
             <div className="w-full max-w-6xl lg:max-w-4xl lg:mx-auto">
               <div className="bg-white border rounded-sm rounded-b-none px-3 py-2 pb-3 flex flex-row md:flex-col md:rounded-none">
                 <div className="flex-auto border-r md:border-r-0">
-                  <div className="block tracking-widest text-gray-700 font-bold my-2 px-2 font-mukta uppercase">
+                  <div className="block tracking-widest text-gray-700 text-sm font-bold my-2 px-2 font-mukta uppercase">
                     What
                   </div>
                   <div className="items-center bg-gray-200 rounded-md">
                     <input
-                      className="w-full rounded-md placeholder-gray-400 text-gray-700 leading-tight focus:outline-none py-2 px-2  md:placeholder:text-sm lg:placeholder:text-sm"
+                      value={what}
+                      className="w-full rounded-md placeholder-gray-300 text-gray-700 leading-tight focus:outline-none py-2 px-2"
                       id="search"
                       type="text"
                       placeholder="Enter keyword of role name"
@@ -147,26 +229,30 @@ const Search = () => {
                         const searchFieldString = event.target.value
                           .toString()
                           .toLocaleLowerCase();
-                        setSearchField(searchFieldString);
+                        setWhat(event.target.value);
+                        // setSearchField(searchFieldString);
+                        search("what");
                       }}
                     />
                   </div>
                 </div>
                 <div className="flex-auto md:border-r-0">
-                  <div className="block tracking-widest text-gray-700 font-bold my-2 px-2 font-mukta uppercase">
+                  <div className="block tracking-widest text-gray-700 text-sm font-bold my-2 px-2 font-mukta uppercase">
                     Category
                   </div>
                   <div className="items-center bg-gray-200 rounded-md">
                     <input
-                      className="w-full rounded-md placeholder-gray-400 text-gray-700 leading-tight focus:outline-none py-2 px-2  md:placeholder:text-xs lg:placeholder:text-sm"
+                      className="w-full rounded-md placeholder-gray-300 text-gray-700 leading-tight focus:outline-none py-2 px-2"
                       id="search"
                       type="text"
-                      placeholder="Search Head Office, Optometrist, Partnership or Retail"
+                      value={category}
+                      placeholder="Search Head Office, Optometrist, Partnership or Retail "
                       onChange={(event) => {
                         const searchFieldString = event.target.value
                           .toString()
                           .toLocaleLowerCase();
-                        setCategorySearchField(searchFieldString);
+                        setCategory(event.target.value);
+                        search("category");
                       }}
                     />
                   </div>
@@ -188,12 +274,12 @@ const Search = () => {
                   <option value="FR">France</option>
                   <option value="DE">Germany</option>
                 </select> */}
-                <WorkType
-                  jobs={jobs}
-                  onFilterJobsByType={filterJobsByTypeHandler}
-                />
+                <WorkType jobs={jobs} onFilterJobsByType={setSelectedTypes} />
                 <div className="flex w-1/2 pr-2">
-                  <div className="w-full mt-2">
+                  <div
+                    className="w-full mt-2"
+                    onClick={() => setIsOpen(!isOpen)}
+                  >
                     <Listbox
                       as="div"
                       className="space-y-1"
@@ -213,7 +299,9 @@ const Search = () => {
                                 <span className="block truncate">
                                   {selectedCountries.length < 1
                                     ? "Select Country"
-                                    : `${selectedCountries}`}
+                                    : `${selectedCountries.map(
+                                        (item) => countryHash[item]
+                                      )}`}
                                 </span>
                                 <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                                   <svg
@@ -267,7 +355,7 @@ const Search = () => {
                                                 : "font-normal"
                                             } block truncate`}
                                           >
-                                            {country}
+                                            {countryHash[country]}
                                           </span>
                                           {selected && (
                                             <span

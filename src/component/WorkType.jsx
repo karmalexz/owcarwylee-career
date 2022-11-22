@@ -60,6 +60,7 @@ export default function WorkType(props) {
   }, [props.jobs]);
 
   useEffect(() => {
+    console.log("selectedWorkTypes", selectedWorkTypes);
     props.onFilterJobsByType(selectedWorkTypes);
   }, [selectedWorkTypes]);
 
@@ -97,7 +98,12 @@ export default function WorkType(props) {
 
   return (
     <div className="flex w-1/2 pr-2">
-      <div className="w-full mt-2 ">
+      <div
+        className="w-full mt-2 "
+        onClick={() => {
+          setIsOpen(!isOpen);
+        }}
+      >
         <Listbox
           as="div"
           className="space-y-1"
