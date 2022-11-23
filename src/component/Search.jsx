@@ -51,11 +51,11 @@ const Search = () => {
   // *******************************************************
 
   useEffect(() => {
-    fetch("http://localhost:5050")
+    fetch("http://35.75.232.181/xmlConvert.php")
       .then((response) => response.json())
       .then((data) => {
-        setJobs(data);
-        setFilteredJobs(data);
+        setJobs(data.job);
+        setFilteredJobs(data.job);
         if (window.location.href.split("=")[1]) {
           setSelectedCountries([window.location.href.split("=")[1]]);
         }
