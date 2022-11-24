@@ -51,11 +51,25 @@ const Search = () => {
   // *******************************************************
 
   useEffect(() => {
-    fetch("http://35.75.232.181/xmlConvert.php")
-      .then((response) => response.json())
+    fetch(
+      "https://prod-publicjobfeed.livehire.com/oscarwylee/LiveHirePublicXmlFeed.xml"
+    )
+      .then((response) => response.text())
+      .then((str) => new window.DOMParser().parseFromString(str, "text/xml"))
       .then((data) => {
-        setJobs(data.job);
-        setFilteredJobs(data.job);
+        let jobDom = data.getElementsByTagName("job");
+        let jobList = [];
+        for (let i = 0; i < jobDom.length; i++) {
+          let obj = {};
+          for (let j = 0; j < jobDom[i].childNodes.length; j++) {
+            obj[jobDom[i].childNodes[j].tagName] =
+              jobDom[i].childNodes[j].innerHTML;
+          }
+          jobList.push(obj);
+        }
+        console.log("type", jobList);
+        setJobs(jobList);
+        setFilteredJobs(jobList);
         if (window.location.href.split("=")[1]) {
           setSelectedCountries([window.location.href.split("=")[1]]);
         }
@@ -120,6 +134,22 @@ const Search = () => {
     setFilteredJobs(newFilteredJobs);
   };
 
+  const showTime = (str) => {
+    const date1 = new Date();
+    const date2 = new Date(str);
+    const y = date1.getFullYear() - date2.getFullYear();
+    const m = date1.getMonth() - date2.getMonth();
+    const d = date1.getDate() - date2.getDate();
+    // console.log(date1, date2, y, m, d);
+    if (y !== 0) {
+      return `${y} years ago`;
+    }
+    if (m !== 0) {
+      return `${m} months ago`;
+    }
+    return `${d} days ago`;
+  };
+
   const endpoint = window.location.href.split("=")[1];
   console.log(endpoint);
 
@@ -138,7 +168,7 @@ const Search = () => {
     console.table(what, category, selectedTypes, selectedCountries);
     if (what !== "") {
       console.log("what");
-      t = t.filter((item) => item.title[0].toLocaleLowerCase().includes(what));
+      t = t.filter((item) => item.title.toLocaleLowerCase().includes(what));
     }
     if (category !== "") {
       console.log("category");
@@ -173,7 +203,7 @@ const Search = () => {
       t = t.filter((job) => {
         let flag = false;
         for (let i = 0; i < selectedCountries.length; i++) {
-          if (job.country[0].toString() === selectedCountries[i]) {
+          if (job.country.toString() === selectedCountries[i]) {
             flag = true;
             break;
           }
@@ -181,7 +211,6 @@ const Search = () => {
         return flag;
       });
     }
-    console.log("t", t);
     setFilteredJobs(t);
   };
 
@@ -460,7 +489,7 @@ const Search = () => {
                           <BsCalendar2WeekFill />
                         </div>
                         <div className="text-gray-600 mr-5">
-                          <span>{job.city}</span>
+                          <span>{showTime(job.date)}</span>
                         </div>
                       </div>
                     </div>

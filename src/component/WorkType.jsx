@@ -42,18 +42,20 @@ export default function WorkType(props) {
   props.jobs.map((job) => {
     const jobString = JSON.stringify(job.jobType);
     if (jobString !== undefined) {
-      jobTypeArray.push(jobString.substring(2, jobString.length - 2));
+      // console.log('jobString', jobString);
+      jobTypeArray.push(jobString.substring(1, jobString.length - 1));
     }
     return jobTypeArray;
   });
   function getJobTypeNumbers() {
     for (let i = 0; i < jobTypeArray.length; i++) {
       jobTypes.map((jobType) => {
-        return jobType.jobType === jobTypeArray[i]
+        return jobType.jobType == jobTypeArray[i]
           ? (jobType.number += 1)
           : jobType.number;
       });
     }
+    // console.log('jobTypes', jobTypes);
   }
   useEffect(() => {
     getJobTypeNumbers();
@@ -180,7 +182,7 @@ export default function WorkType(props) {
                               >
                                 {jobtype.jobType}
                                 <span className="inset-y-0 right-0 absolute mr-10 mt-2 font-normal">
-                                  ({jobtype.number / 2})
+                                  ({jobtype.number})
                                 </span>
                               </span>
                               {/* <span className="flex-row">2</span> */}
