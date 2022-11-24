@@ -247,7 +247,7 @@ const Search = () => {
               <div className="bg-white border rounded-sm rounded-b-none px-3 py-2 pb-3 flex flex-row md:flex-col md:rounded-none">
                 <div className="flex-auto border-r md:border-r-0">
                   <div className="block tracking-widest text-gray-700 text-sm font-bold my-2 px-2 font-mukta uppercase">
-                    Whaa
+                    What
                   </div>
                   <div className="items-center bg-gray-200 rounded-md">
                     <input
