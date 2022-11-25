@@ -38,7 +38,7 @@ export default function WorkType(props) {
   }
 
   let jobTypeArray = [];
-
+  let first = true;
   props.jobs.map((job) => {
     const jobString = JSON.stringify(job.jobType);
     if (jobString !== undefined) {
@@ -48,6 +48,8 @@ export default function WorkType(props) {
     return jobTypeArray;
   });
   function getJobTypeNumbers() {
+    if (!first) return;
+    first = false;
     for (let i = 0; i < jobTypeArray.length; i++) {
       jobTypes.map((jobType) => {
         return jobType.jobType == jobTypeArray[i]
@@ -78,11 +80,10 @@ export default function WorkType(props) {
   //   }, []);
 
   function handleSelect(value) {
+    console.log("handleSelect", value);
     if (!isSelected(value)) {
-      const selectedWorkTypesUpdated = [
-        ...selectedWorkTypes,
-        jobTypeArray.find((el) => el === value),
-      ];
+      // let s = jobTypeArray.find((el) => el === value)
+      const selectedWorkTypesUpdated = [...selectedWorkTypes, value];
       setSelectedWorkTypes(selectedWorkTypesUpdated);
     } else {
       handleDeselect(value);
@@ -122,7 +123,10 @@ export default function WorkType(props) {
                 <span className="inline-block w-full rounded-md shadow-sm">
                   <Listbox.Button
                     className="cursor-default relative w-full rounded-sm border border-gray-300 bg-white pl-3 pr-10 py-2 text-left focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition ease-in-out duration-150 sm:text-sm sm:leading-5"
-                    onClick={() => setIsOpen(!isOpen)}
+                    onClick={() => {
+                      setIsOpen(!isOpen);
+                      console.log("selectedWorkTypes", selectedWorkTypes);
+                    }}
                     open={isOpen}
                   >
                     <span className="block truncate text-gray-500">
@@ -182,7 +186,7 @@ export default function WorkType(props) {
                               >
                                 {jobtype.jobType}
                                 <span className="inset-y-0 right-0 absolute mr-10 mt-2 font-normal">
-                                  ({jobtype.number})
+                                  ({jobtype.number / 2})
                                 </span>
                               </span>
                               {/* <span className="flex-row">2</span> */}
