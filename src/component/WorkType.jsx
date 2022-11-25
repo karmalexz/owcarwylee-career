@@ -186,7 +186,7 @@ export default function WorkType(props) {
                               >
                                 {jobtype.jobType}
                                 <span className="inset-y-0 right-0 absolute mr-10 mt-2 font-normal">
-                                  ({jobtype.number / 2})
+                                  ({jobtype.number})
                                 </span>
                               </span>
                               {/* <span className="flex-row">2</span> */}
