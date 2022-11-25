@@ -67,6 +67,13 @@ const Search = () => {
           }
           jobList.push(obj);
         }
+
+        jobList = jobList.sort((a, b) => {
+          let date1 = new Date(a.date);
+          let date2 = new Date(b.date);
+          console.log(date1.getTime(), date2.getTime());
+          return date2.getTime() - date1.getTime();
+        });
         console.log("type", jobList);
         setJobs(jobList);
         setFilteredJobs(jobList);
@@ -140,6 +147,8 @@ const Search = () => {
     const y = date1.getFullYear() - date2.getFullYear();
     const m = date1.getMonth() - date2.getMonth();
     const d = date1.getDate() - date2.getDate();
+    const hh = date1.getHours() - date2.getHours();
+    const mm = date1.getMinutes() - date2.getMinutes();
     // console.log(date1, date2, y, m, d);
     if (y !== 0) {
       return `${y} years ago`;
@@ -147,7 +156,13 @@ const Search = () => {
     if (m !== 0) {
       return `${m} months ago`;
     }
-    return `${d} days ago`;
+    if (d !== 0) {
+      return `${d} days ago`;
+    }
+    if (hh !== 0) {
+      return `${hh} hours ago`;
+    }
+    return `${mm} minutes ago`;
   };
 
   const endpoint = window.location.href.split("=")[1];
@@ -173,15 +188,9 @@ const Search = () => {
     if (category !== "") {
       console.log("category");
       // console.log('before filter', t);
-      t = t.filter((item) => {
-        let flag = false;
-        item.category.map((c) => {
-          if (c.toLocaleLowerCase().includes(category)) {
-            flag = true;
-          }
-        });
-        return flag;
-      });
+      t = t.filter((item) =>
+        item.category.toLocaleLowerCase().includes(category)
+      );
     }
     if (selectedTypes.length !== 0) {
       console.log("type");
@@ -211,6 +220,7 @@ const Search = () => {
         return flag;
       });
     }
+    t = t.sort((a, b) => a.date - b.date);
     setFilteredJobs(t);
   };
 
@@ -291,20 +301,6 @@ const Search = () => {
               </div>
 
               <div className="bg-gray-100 border border-t-0  rounded-sm rounded-t-none px-auto py-auto pl-1 mb-4 pb-3 flex flex-row md:flex-col">
-                {/* <label
-                  for="countries"
-                  class="block mb-2 text-sm font-medium text-gray-900 bg-gray-400"
-                ></label>
-                <select
-                  id="countries"
-                  class="bg-white border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5"
-                >
-                  <option selected>All Work Types</option>
-                  <option value="US">United States</option>
-                  <option value="CA">Canada</option>
-                  <option value="FR">France</option>
-                  <option value="DE">Germany</option>
-                </select> */}
                 <WorkType jobs={jobs} onFilterJobsByType={setSelectedTypes} />
                 <div className="flex w-1/2 pr-2">
                   <div
