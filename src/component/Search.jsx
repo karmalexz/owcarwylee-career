@@ -302,7 +302,7 @@ const Search = () => {
 
               <div className="bg-gray-100 border border-t-0  rounded-sm rounded-t-none px-auto py-auto pl-1 mb-4 pb-3 flex flex-row md:flex-col">
                 <WorkType jobs={jobs} onFilterJobsByType={setSelectedTypes} />
-                <div className="flex w-1/2 pr-2">
+                <div className="flex w-1/2 pr-2 md:w-full">
                   <div
                     className="w-full mt-2"
                     onClick={() => setIsOpen(!isOpen)}
@@ -315,14 +315,14 @@ const Search = () => {
                       open={isOpen}
                     >
                       {() => (
-                        <div className="relative md:mb-2 md:w-max-4xl">
-                          <span className="inline-block w-full rounded-md shadow-sm ">
+                        <div className="md:mb-2">
+                          <span className="inline-block w-full rounded-md shadow-sm md:w-full md:mr-5">
                             <Listbox.Button
                               className="cursor-default relative w-full rounded-sm border border-gray-300 bg-white pl-3 pr-10 py-2 text-left focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition ease-in-out duration-150 sm:text-sm sm:leading-5"
                               onClick={() => setIsOpen(!isOpen)}
                               open={isOpen}
                             >
-                              <span className="block truncate">
+                              <span className="block truncate text-gray-500">
                                 {selectedCountries.length < 1
                                   ? "Select Country"
                                   : `${selectedCountries.map(
@@ -353,7 +353,7 @@ const Search = () => {
                             leave="transition ease-in duration-100"
                             leaveFrom="opacity-100"
                             leaveTo="opacity-0"
-                            className="absolute mt-1 w-full rounded-md bg-white shadow-lg"
+                            className="absolute mt-1 w-full rounded-md bg-white shadow-lg md:w-full md:pr-4"
                           >
                             <Listbox.Options
                               static

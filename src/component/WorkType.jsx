@@ -100,9 +100,9 @@ export default function WorkType(props) {
   }
 
   return (
-    <div className="flex w-1/2 pr-2">
+    <div className="flex w-1/2 pr-2 md:w-full">
       <div
-        className="w-full mt-2 "
+        className="w-full mt-2 md:w-full"
         onClick={() => {
           setIsOpen(!isOpen);
         }}
@@ -116,11 +116,8 @@ export default function WorkType(props) {
         >
           {() => (
             <>
-              {/* <Listbox.Label className="block text-sm leading-5 font-medium text-gray-700">
-                Work Types
-              </Listbox.Label> */}
-              <div className="relative md:mb-2">
-                <span className="inline-block w-full rounded-md shadow-sm">
+              <div className="md:mb-2">
+                <span className="inline-block w-full rounded-md shadow-sm md:w-full">
                   <Listbox.Button
                     className="cursor-default relative w-full rounded-sm border border-gray-300 bg-white pl-3 pr-10 py-2 text-left focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition ease-in-out duration-150 sm:text-sm sm:leading-5"
                     onClick={() => {
@@ -160,7 +157,7 @@ export default function WorkType(props) {
                   leave="transition ease-in duration-100"
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
-                  className="absolute mt-1 w-full rounded-md bg-white shadow-lg"
+                  className=" mt-1 w-1/2 rounded-md bg-white shadow-lg md:w-full md:pr-4"
                 >
                   <Listbox.Options
                     static
