@@ -177,7 +177,7 @@ export default function WorkType(props) {
                                 active
                                   ? "text-white bg-slate-100"
                                   : "text-gray-900"
-                              } cursor-default select-none relative py-2 pl-8 pr-4  hover:cursor-pointer hover:bg-slate-100`}
+                              } cursor-default select-none relative py-2 pl-8 pr-4 hover:cursor-pointer hover:bg-slate-100 hover:text-black`}
                             >
                               <span
                                 className={`${
