@@ -157,7 +157,7 @@ export default function WorkType(props) {
                   leave="transition ease-in duration-100"
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
-                  className=" mt-1 w-1/2 rounded-md bg-white shadow-lg md:w-full md:pr-4"
+                  className=" mt-1 w-full rounded-md bg-white shadow-lg md:w-full md:pr-4"
                 >
                   <Listbox.Options
                     static
