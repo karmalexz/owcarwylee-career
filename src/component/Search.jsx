@@ -153,13 +153,22 @@ const Search = () => {
     if (y !== 0) {
       return `${y} years ago`;
     }
-    if (m !== 0) {
+    if (m !== 0 && m <= 1) {
+      return `${m} month ago`;
+    }
+    if (m !== 0 && m > 1) {
       return `${m} months ago`;
     }
-    if (d !== 0) {
+    if (d !== 0 && d <= 1) {
+      return `${d} day ago`;
+    }
+    if (d !== 0 && d > 1) {
       return `${d} days ago`;
     }
-    if (hh !== 0) {
+    if (hh !== 0 && hh <= 1) {
+      return `${hh} hour ago`;
+    }
+    if (hh !== 0 && hh > 1) {
       return `${hh} hours ago`;
     }
     return `${mm} minutes ago`;
