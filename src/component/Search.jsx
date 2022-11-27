@@ -262,7 +262,7 @@ const Search = () => {
                   <div className="items-center bg-gray-200 rounded-md">
                     <input
                       value={what}
-                      className="w-full rounded-md placeholder-gray-300 text-gray-700 leading-tight focus:outline-none py-2 px-2"
+                      className="w-full rounded-md placeholder-gray-400 text-gray-700 leading-tight focus:outline-none py-2 px-2 sm:placeholder:text-xs lg:placeholder:text-sm md:placeholder:text-base"
                       id="search"
                       type="text"
                       placeholder="Enter keyword of role name"
@@ -283,7 +283,7 @@ const Search = () => {
                   </div>
                   <div className="items-center bg-gray-200 rounded-md">
                     <input
-                      className="w-full rounded-md placeholder-gray-300 text-gray-700 leading-tight focus:outline-none py-2 px-2"
+                      className="w-full rounded-md placeholder-gray-400 text-gray-700 leading-tight focus:outline-none py-2 px-2 lg:placeholder:text-sm md:placeholder:text-base sm:placeholder:text-xs"
                       id="search"
                       type="text"
                       value={category}
@@ -450,13 +450,13 @@ const Search = () => {
                         {job.title}
                       </li>
                     </div>
-                    <div className="mr-auto text-xs mb-5 pr-10 whitespace-nowrap lg:w-44 lg:mr-10">
-                      <div className="flex ml-auto mt-5 lg:mt-4">
+                    <div className="mr-auto text-xs mb-5 pr-10 whitespace-nowrap lg:w-44 lg:mr-10 md:w-40">
+                      <div className="flex ml-auto mt-5 lg:mt-4 md:w-40">
                         <div className="mr-4 mt-0.5">
                           <HiLocationMarker />
                         </div>
                         <div className="text-gray-600 whitespace-nowrap">
-                          <span className="mr-0.5">
+                          <span className="mr-0.5 md:whitespace-normal">
                             {job.city ? job.city : job.country}{" "}
                           </span>
                           <span> {job.state} </span>
