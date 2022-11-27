@@ -451,11 +451,11 @@ const Search = () => {
                       </li>
                     </div>
                     <div className="mr-auto text-xs mb-5 pr-10 whitespace-nowrap lg:w-44 lg:mr-10 md:w-40">
-                      <div className="flex ml-auto mt-5 lg:mt-4 md:w-40">
+                      <div className="flex ml-auto mt-5 w-52 lg:mt-4 md:w-40  ">
                         <div className="mr-4 mt-0.5">
                           <HiLocationMarker />
                         </div>
-                        <div className="text-gray-600 whitespace-nowrap">
+                        <div className="text-gray-600 whitespace-normal">
                           <span className="mr-0.5 md:whitespace-normal">
                             {job.city ? job.city : job.country}{" "}
                           </span>
