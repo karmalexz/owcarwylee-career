@@ -192,13 +192,15 @@ const Search = () => {
     console.table(what, category, selectedTypes, selectedCountries);
     if (what !== "") {
       console.log("what");
-      t = t.filter((item) => item.title.toLocaleLowerCase().includes(what));
+      t = t.filter((item) =>
+        item.title.toLocaleLowerCase().includes(what.toLocaleLowerCase())
+      );
     }
     if (category !== "") {
       console.log("category");
       // console.log('before filter', t);
       t = t.filter((item) =>
-        item.category.toLocaleLowerCase().includes(category)
+        item.category.toLocaleLowerCase().includes(category.toLocaleLowerCase())
       );
     }
     if (selectedTypes.length !== 0) {
@@ -235,7 +237,17 @@ const Search = () => {
 
   return (
     <div>
-      <img className="w-64 p-6" src={require("../assets/logo2.png")} alt="" />
+      <a
+        {...(window.location.href.split("=")[1] === "AU"
+          ? { href: "https://www.oscarwylee.com.au" }
+          : window.location.href.split("=")[1] === "NZ"
+          ? { href: "https://www.oscarwylee.co.nz" }
+          : window.location.href.split("=")[1] === "CA"
+          ? { href: "https://oscarwylee.ca" }
+          : { href: "https://www.oscarwylee.com.au" })}
+      >
+        <img className="w-64 p-6" src={require("../assets/logo2.png")} alt="" />
+      </a>
       <div className="">
         <img
           src={require("../assets/background.webp")}
