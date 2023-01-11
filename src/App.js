@@ -1,15 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
 
-import Search from './component/Search';
+import {
+  BrowserRouter, Route, Routes
+} from "react-router-dom";
+
+import SearchPage from './pages/search/SearchPage';
 
 function App() {
   return (
-    <div>
-
-   {/* <Header /> */}
-   <Search />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<SearchPage />} />
+        <Route path="/countryCode=AU" element={<SearchPage />} />
+        <Route path="/countryCode=CA" element={<SearchPage />} />
+        <Route path="/countryCode=NZ" element={<SearchPage />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
