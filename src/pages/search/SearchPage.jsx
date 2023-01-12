@@ -152,7 +152,7 @@ const SearchPage = () => {
         } else if (placeFilter.city) {
           flag = placeFilter.city === job.city;
         } else if (placeFilter.state) {
-          flag = placeFilter.state = job.state;
+          flag = placeFilter.state === job.state;
         } else if (placeFilter.country) {
           flag = placeFilter.country === job.country;
         }
