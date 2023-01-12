@@ -150,7 +150,9 @@ const AOMultiDropdown = ({ placeholder, options, onChange }) => {
                         <span className="flex-1 px-2 py-1 font-normal block truncate">
                           {subOption.label ?? subOption.value}
                         </span>
-                        <span className="font-normal block truncate">{`(${subOption.count})`}</span>
+                        <span className="font-normal block truncate">{`(${
+                          subOption.count ?? 0
+                        })`}</span>
                       </div>
                     </div>
                   );
