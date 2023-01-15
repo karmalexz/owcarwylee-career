@@ -208,6 +208,8 @@ const SearchPage = () => {
   ]);
 
   const [showMore, setShowMore] = useState(10);
+  const [buttonText, setButtonText] = useState("Show More Jobs");
+  const changeText = (text) => setButtonText(text);
 
   return (
     <div>
@@ -278,7 +280,7 @@ const SearchPage = () => {
                   </div>
                 </div>
                 <div className="flex-auto md:border-r-0">
-                  <div className="block tracking-widest text-gray-700 text-sm font-bold my-2 px-2 font-mukta uppercase">
+                  <div className="block tracking-widest text-gray-700 text-sm font-bold my-2 px-5 font-mukta uppercase">
                     Category
                   </div>
                   <div className="items-center bg-white rounded-md">
@@ -391,9 +393,14 @@ const SearchPage = () => {
           className={`
             bg-transparent hover:bg-blue-500 text-blue-700 font-bold hover:text-white py-4 w-full mb-6 border border-blue-500 hover:border-transparent rounded flex items-center justify-center lg:max-w-4xl md:max-w-2xl md:w-full md:mx-1 
             ${showMore >= filteredJobs.length ? "cursor-not-allowed" : ""}
+            ${
+              showMore >= filteredJobs.length
+                ? "md:bg-blue-300 md:hover:bg-blue-300 "
+                : ""
+            }
           `}
         >
-          Show more jobs
+          Show More Jobs
         </button>
         <SearchFooter />
       </div>

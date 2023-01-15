@@ -89,7 +89,7 @@ const CategoryFilter = ({ jobs, onChange }) => {
 
   return (
     <AOMultiDropdown
-      placeholder={"Search Head Office, Optometrist, Partnership or Retail"}
+      placeholder={"Select a category"}
       options={options}
       onChange={onChange}
     />

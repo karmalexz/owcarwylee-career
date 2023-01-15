@@ -4,6 +4,7 @@ import AOSelect from "../../components/AOSelect";
 
 const options = [
   {
+    label: "Any Employment",
     value: "AnyEmployment",
   },
   {
@@ -13,11 +14,11 @@ const options = [
     value: "Contract",
   },
   {
-    label: "FullTimePermanent",
+    label: "Full Time Permanent",
     value: "Full Time - Permanent",
   },
   {
-    label: "PartTimePermanent",
+    label: "Part Time Permanent",
     value: "Part Time - Permanent",
   },
 ];

@@ -25,7 +25,7 @@ const AODropdown = ({ defaultValue, options, onChange }) => {
     <div className="relative">
       <button
         type="button"
-        className="relative w-full rounded-sm border border-gray-300 bg-white pl-3 pr-10 py-2 text-left focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition ease-in-out duration-150 sm:text-sm sm:leading-5"
+        className="relative cursor-pointer w-full rounded-sm border border-gray-300 bg-white pl-3 pr-10 py-2 text-left focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition ease-in-out duration-150 sm:text-sm sm:leading-5"
         aria-haspopup="listbox"
         aria-expanded="true"
         aria-labelledby="listbox-label"

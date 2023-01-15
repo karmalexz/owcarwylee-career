@@ -8,7 +8,7 @@ export const ago = (dateStr) => {
     return minutes > 1 ? minutes + " minutes ago" : "a minute ago";
   } else if (relative >= 60 * 60 && relative < 60 * 60 * 24) {
     const hours = parseInt(relative / (60 * 60));
-    return hours > 1 ? hours + " hours ago" : "a hour ago";
+    return hours > 1 ? hours + " hours ago" : "an hour ago";
   } else if (relative >= 60 * 60 * 24 && relative < 60 * 60 * 24 * 30) {
     const days = parseInt(relative / (60 * 60 * 24));
     return days > 1 ? days + " days ago" : "a day ago";

@@ -61,19 +61,22 @@ const AOMultiDropdown = ({ placeholder, options, onChange }) => {
 
   return (
     <div className="relative">
-      <input
-        className="w-full p-2 rounded-md placeholder-gray-400 text-gray-700 leading-tight focus:outline-none lg:placeholder:text-sm md:placeholder:text-base sm:placeholder:text-xs"
-        id="search"
-        type="text"
-        value={
-          selectedOptions.length > 0
-            ? selectedOptions.map((op) => op.value).join(",")
-            : ""
-        }
-        placeholder={placeholder}
-        onClick={() => setOpen(!isOpen)}
-        readOnly
-      />
+      <div className="flex">
+        <input
+          className="w-full cursor-pointer p-2 rounded-md placeholder-gray-400 text-gray-700 leading-tight focus:outline-none lg:placeholder:text-sm md:placeholder:text-base sm:placeholder:text-xs ml-3"
+          id="search"
+          type="text"
+          value={
+            selectedOptions.length > 0
+              ? selectedOptions.map((op) => op.value).join(",")
+              : ""
+          }
+          placeholder={placeholder}
+          onClick={() => setOpen(!isOpen)}
+          readOnly
+        />
+        <AiFillCaretDown size={12} color="#D1D5DB" className="m-4" />
+      </div>
       <button
         type="button"
         className="hidden cursor-default relative rounded-sm border border-gray-300 bg-white pl-3 pr-10 py-2 text-left focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition ease-in-out duration-150 sm:text-sm sm:leading-5"
@@ -87,6 +90,7 @@ const AOMultiDropdown = ({ placeholder, options, onChange }) => {
             ? selectedOptions.map((op) => op.value).join(",")
             : placeholder}
         </span>
+
         <span className="absolute p-2 items-center pointer-events-none">
           <svg
             className="h-5 w-5 text-gray-400"
