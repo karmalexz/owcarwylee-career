@@ -232,12 +232,12 @@ const SearchPage = () => {
         <img
           src={
             endpoint === "CA"
-              ? require("../../assets/bg_ca.webp")
+              ? require("../../assets/ca_banner.webp")
               : endpoint === "AU"
-              ? require("../../assets/bg_au.jpeg")
+              ? require("../../assets/au_banner.webp")
               : endpoint === "NZ"
-              ? require("../../assets/bg_nz.jpg")
-              : require("../../assets/bg_au.jpeg")
+              ? require("../../assets/nz_banner.webp")
+              : require("../../assets/au_banner.webp")
           }
           className="object-cover h-96 w-full lg:h-60 md:h-48"
           alt=""
