@@ -297,7 +297,7 @@ const SearchPage = () => {
                   <div className="flex-1">
                     <PlaceFilter
                       placeholder="Search Postal code, City, State"
-                      defaultValue={countryNames[country]}
+                      // defaultValue={countryNames[country]}
                       onChange={(value) => {
                         setPlaceFilter(value);
                         if (value !== endpoint) setCountry("");
